@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="Find_Dupes.MVVM.View.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Find_Dupes.MVVM.View"
+             xmlns:viewModel="clr-namespace:Find_Dupes.MVVM.ViewModel"
+             xmlns:customControls="clr-namespace:Find_Dupes.MVVM.CustomControls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="800"
+             
+             >
+    
+    <UserControl.DataContext>
+        <viewModel:MainView_ViewModel/>
+    </UserControl.DataContext>
+    
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Grid Background="white">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="1.9*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" Margin="20">
+
+            <!-- First stack panel -->
+            <StackPanel Orientation="Horizontal" Visibility="Visible">
+                <TextBlock Text="Found " Margin="0 10 0 0"/>
+                <TextBlock Text="{Binding Path=CurrentNumberOfFiles, UpdateSourceTrigger=PropertyChanged}" Margin="0 10 0 0" Width="auto"/>
+                <TextBlock Text=" files in the selected folder." Margin="0 10 0 0" Width="auto"/>
+            </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                <TextBlock Text="Enter filter (not case sensitive): "/>
+                <TextBox x:Name="FilterTextBox" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" Width="50" Margin="5 0 0 0"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                <TextBlock Text="Select folder " VerticalAlignment="Center"/>
+                <Button Command="{Binding Path=GetAllFilesCommand}"  Visibility="Visible" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Background="Transparent" BorderBrush="White">
+                    <Button.Content>
+                        <fa:FontAwesome Icon="FolderOutlinepenOutline" Foreground="Black" FontSize="25" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+            <TextBlock Margin="0 10 0 0" Text="After list is populated click on entry below to open folder!"/>
+
+        </StackPanel>
+        <ListView ItemsSource="{Binding SourceCollection, UpdateSourceTrigger=PropertyChanged}" Margin="20 0 0 10" Height="280" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" SelectedItem="{Binding SelectedItemListView, UpdateSourceTrigger=PropertyChanged}"/>
+
+    </Grid>
+</UserControl>
